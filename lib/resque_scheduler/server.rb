@@ -41,7 +41,7 @@ module ResqueScheduler
         
         post "/delayed/queue_now" do
           timestamp = params['timestamp']
-          Resque::Scheduler.enqueue_delayed_items_for_timestamp(timestamp.to_i) if timestamp.present?
+          Resque::Scheduler.enqueue_delayed_items_for_timestamp(timestamp.to_i) if (timestamp.respond_to?(:empty?) ? !timestamp.empty? : timestamp)
           redirect url("/overview")
         end
 
